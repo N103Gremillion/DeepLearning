@@ -1,24 +1,15 @@
 import numpy as np
-from matplotlib_inline import backend_inline
-from d2l import torch as d2l
+import matplotlib.pyplot as plt
 
-
-## MatplotLib utilities
+## Matplotlib utilities
 
 def f(x):
     return 3 * x ** 2 - 4 * x
 
- #@save
-def use_svg_display(): 
-    """Use the svg format to display a plot in Jupyter."""
-    backend_inline.set_matplotlib_formats('svg')
-    
-def set_figsize(figsize=(3.5, 2.5)):  #@save
+def set_figsize(figsize=(3.5, 2.5)):
     """Set the figure size for matplotlib."""
-    use_svg_display()
-    d2l.plt.rcParams['figure.figsize'] = figsize
+    plt.rcParams['figure.figsize'] = figsize
 
-#@save
 def set_axes(axes, xlabel, ylabel, xlim, ylim, xscale, yscale, legend):
     """Set the axes for matplotlib."""
     axes.set_xlabel(xlabel), axes.set_ylabel(ylabel)
@@ -27,8 +18,7 @@ def set_axes(axes, xlabel, ylabel, xlim, ylim, xscale, yscale, legend):
     if legend:
         axes.legend(legend)
     axes.grid()
-    
-#@save
+
 def plot(X, Y=None, xlabel=None, ylabel=None, legend=[], xlim=None,
          ylim=None, xscale='linear', yscale='linear',
          fmts=('-', 'm--', 'g-.', 'r:'), figsize=(3.5, 2.5), axes=None):
@@ -48,8 +38,13 @@ def plot(X, Y=None, xlabel=None, ylabel=None, legend=[], xlim=None,
 
     set_figsize(figsize)
     if axes is None:
-        axes = d2l.plt.gca()
+        axes = plt.gca()
     axes.cla()
     for x, y, fmt in zip(X, Y, fmts):
-        axes.plot(x,y,fmt) if len(x) else axes.plot(y,fmt)
+        axes.plot(x, y, fmt) if len(x) else axes.plot(y, fmt)
     set_axes(axes, xlabel, ylabel, xlim, ylim, xscale, yscale, legend)
+
+def plotExample():
+    x = np.arange(0, 3, 0.1)
+    plot(x, [f(x), 2 * x - 3], 'x', 'f(x)', legend=['f(x)', 'Tangent line (x=1)'])
+    plt.show()  # Ensure the plot is displayed when running the script
